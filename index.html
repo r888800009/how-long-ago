@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>How Long Ago</title>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <style>
+            body {
+                background-color: #e0ecff;
+                text-align: center;
+                color: #555;
+            }
+
+            span {
+                color: #555;
+            }
+
+            footer {
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 350%;
+                text-align: center;
+                color: #6b6b6b;
+            }
+
+            hr {
+                width: 85%;
+                border: none;
+                color: #96aacc;
+                background-color: #96aacc;
+                height: 1px;
+            }
+
+            input {
+                margin: 30px 30px;
+                border-radius: 10px;
+                font-size: 300%;
+                color: #777;
+                padding: 15px 15px;
+                border: 1px solid #ddd;
+                text-align: center;
+                background: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>How Long Ago</h1>
+        <hr>
+        <input type="text" name="date" value="" />
+        <div>
+            Today is:
+        </div>
+        <input type="text" name="now" value="" disabled/>
+        <hr>
+        <input type="text" name="ago" value="" disabled/>
+        <script>
+        $(function() {
+            $('input[name="now"]').ready(function() {
+                $('input[name="now"]').val(moment().format("MM/DD/YYYY"));
+            });
+
+            $('input[name="date"]').daterangepicker({
+                singleDatePicker: true,
+                opens: 'center',
+                maxDate: moment()
+                }, function(start, end, label) {
+                    var day = moment().diff(start, 'day');
+                    $('input[name="ago"]').val( day + 'day ago');
+            });
+        })
+        </script>
+
+        <hr>
+        <footer>
+            <a href="https://github.com/r888800009">r888800009</a> 2019
+        </footer>
+    </body>
+</html>
