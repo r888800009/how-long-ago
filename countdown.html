@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>How Long Ago</title>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <style>
+            body {
+                background-color: #e0ecff;
+                text-align: center;
+                color: #555;
+            }
+
+            span {
+                color: #555;
+            }
+
+            footer {
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 300%;
+                text-align: center;
+                color: #6b6b6b;
+            }
+
+            hr {
+                width: 85%;
+                border: none;
+                color: #96aacc;
+                background-color: #96aacc;
+                height: 1px;
+            }
+
+            input {
+                margin: 30px 30px;
+                border-radius: 10px;
+                font-size: 250%;
+                width: 80%;
+                color: #777;
+                padding: 15px 15px;
+                border: 1px solid #ddd;
+                text-align: center;
+                background: #fff;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Countdown</h1>
+        <hr>
+        <div>
+            Countdown:
+        </div>
+        <input type="text" name="datetime" value="" />
+        <div>
+            Now is:
+        </div>
+        <input type="text" name="now" value="" disabled/>
+        <hr>
+        <input type="text" name="ago" value="" disabled/>
+        <script>
+
+        function get_stop_time() {
+          if (window.location.hash) {
+            return moment(parseInt(window.location.hash.replace(/\D/g, ""))) 
+          } else {
+            window.location.hash = moment().valueOf();
+            return moment()
+          }
+        }
+
+        function show_time() {
+          stop = get_stop_time();
+          $('input[name="ago"]').val(stop.fromNow() + moment(stop.diff(moment())).utc().format(" HH:mm:ss"));
+          $('input[name="now"]').val(moment().format("MM/DD/YYYY HH:mm:ss"));
+        }
+
+        $(function() {
+            $('input[name="now"]').ready(function() {
+                $('input[name="now"]').val(moment().format("MM/DD/YYYY HH:mm:ss"));
+            });
+
+            $('input[name="datetime"]').daterangepicker({
+                singleDatePicker: true,
+                timePicker: true,
+                timePicker24Hour: true,
+                timePickerSeconds: true,
+                startDate: get_stop_time(),
+                opens: 'center',
+                autoUpdateInput: true,
+                locale: {
+                          format: 'MM/DD/YYYY HH:mm:ss',
+                    }
+                }, function(start, end, label) {
+                  window.location.hash = start.valueOf();
+                  show_time();
+            });
+
+        })
+        setInterval(show_time, 250);
+
+        show_time();
+        </script>
+
+        <hr>
+        <footer>
+            <a href="https://github.com/r888800009">r888800009</a> 2021
+        </footer>
+    </body>
+</html>
